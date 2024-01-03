@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int numberOfBeams(vector<string>& bank) {
+        int n = bank.size();
+        if(n == 1) return 0;
+
+        int prevCount = 0;
+        int Lasers = 0;
+        for(int i = 0; i < n; i++){
+            int currentRowCount = 0;
+            for(int j = 0; j < bank[i].size(); j++){
+                if(bank[i][j] == '1'){
+                    currentRowCount++;
+                }
+            }
+            Lasers += currentRowCount * prevCount;
+            prevCount = (currentRowCount == 0) ? prevCount : currentRowCount;
+        }
+        return Lasers;
+    }
+};
+
+// Time Complexity - O(n)
+// Space Complexity - O(1)
