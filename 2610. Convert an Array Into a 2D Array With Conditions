@@ -1,0 +1,43 @@
+class Solution {
+public:
+    vector<vector<int>> findMatrix(vector<int>& nums) {
+        int n = nums.size();
+        unordered_map<int, int> frequencyMap;
+
+        // Count the frequency of each unique element in the input vector
+        for(int i = 0; i < n; i++) {
+            frequencyMap[nums[i]]++;
+        }
+
+        int maxFrequency = 0;
+
+        // Find the maximum frequency among all elements
+        for(auto it: frequencyMap) {
+            if(it.second > maxFrequency) {
+                maxFrequency = it.second;
+            }
+        }
+
+        vector<vector<int>> resultMatrix;
+
+        // Iterate maxFrequency times
+        for(int i = 0; i < maxFrequency; i++) {
+            vector<int> tempVector;
+
+            // For each key-value pair in the map
+            for(auto &entry: frequencyMap) {
+                if(entry.second != 0) {
+                    entry.second--;
+                    tempVector.push_back(entry.first);
+                }
+            }
+
+            // Add the temporary vector to the result matrix
+            resultMatrix.push_back(tempVector);
+        }
+
+        return resultMatrix;
+    }
+};
+//Time Complexity - O(n + maxFrequency)
+// Space Complexity - O(n)
