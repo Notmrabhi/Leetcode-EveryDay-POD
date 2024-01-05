@@ -1,0 +1,41 @@
+//Memoized Solution
+class Solution {
+public:
+
+    int largestcheck(int ind, int prev, int size, vector<int> &nums, vector<vector<int>> &dp){
+        if(ind == size+1) return 0;
+        //not pick
+        if(dp[ind][prev+1] != -1) return dp[ind][prev+1];
+        int len = largestcheck(ind+1, prev, size, nums, dp);
+        //take
+        if(prev == -1|| nums[ind] > nums[prev]){
+           len = max(len, 1 + largestcheck(ind+1, ind, size, nums, dp));
+        }
+        return dp[ind][prev+1]=len;
+    }
+
+    int lengthOfLIS(vector<int>& nums) {
+        int n = nums.size();
+        vector<vector<int>> dp(n, vector<int> (n+1, -1));
+        return largestcheck(0, -1, n-1, nums, dp);
+    }
+};
+//Tabulation 
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int n = nums.size();
+        
+        vector<vector<int>> dp(n+1, vector<int>(n + 1, 0));
+        for(int ind = n-1; ind >= 0; ind--){
+            for(int prev = ind - 1; prev >= -1; prev--){
+                int len = dp[ind+1][prev+1];
+                if(prev == -1|| nums[ind] > nums[prev]){
+                len = max(len, 1 + dp[ind+1][ind+1]);
+                }
+            dp[ind][prev+1]=len;
+            }
+        }
+        return dp[0][-1+1];
+    }
+};
