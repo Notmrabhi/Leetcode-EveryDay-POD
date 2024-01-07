@@ -1,0 +1,29 @@
+#include <vector>
+#include <unordered_map>
+
+class Solution {
+public:
+    int numberOfArithmeticSlices(std::vector<int>& nums) {
+        int n = nums.size();
+
+        // Declare a dp array of unordered_map
+        std::vector<std::unordered_map<long, long>> dp(n + 1);
+
+        // dp[i][diff] will store the no. of subsequences with a common difference of 'diff' till the ith index
+        long ans = 0;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = i - 1; j >= 0; j--) {
+                long diff = static_cast<long>(nums[i]) - static_cast<long>(nums[j]);
+
+                // Update ans
+                ans += dp[j][diff];
+
+                // Update dp[i][diff]
+                dp[i][diff] += dp[j][diff] + 1;
+            }
+        }
+
+        return static_cast<int>(ans);
+    }
+};
