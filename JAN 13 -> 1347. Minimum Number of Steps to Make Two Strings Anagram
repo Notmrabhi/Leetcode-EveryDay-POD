@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int minSteps(string s, string t) {
+
+        if(s.length() != t.length()) return -1;
+
+        int ar1[26] = {0};
+        int ar2[26] = {0};
+        for(int i = 0 ; i < s.length(); i++){
+            int num = s[i] - 'a';
+            ar1[num]++;
+        }
+        for(int i = 0 ; i < t.length(); i++){
+            int num = t[i] - 'a';
+            ar2[num]++;
+        }
+        int same = 0;
+        for(int i = 0; i < 26; i++){
+            if(ar1[i] > 0 && ar2[i] > 0){
+                same++;
+                ar1[i]--;
+                ar2[i]--;
+                i--;
+            }
+        }
+        return t.length() - same;
+    }
+};
+  
+// 0 1 0 0 0 0 
+// 1 0 0 0 0 0
+// same = 2
