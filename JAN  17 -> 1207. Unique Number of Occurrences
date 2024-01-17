@@ -1,0 +1,33 @@
+// Brute
+class Solution {
+public:
+    bool uniqueOccurrences(vector<int>& arr) {
+        map<int, int> mp;
+        for(int i = 0; i < arr.size(); i++){
+            mp[arr[i]]++;
+        }
+        for(auto i: mp){
+            for(auto it: mp){
+                if(i.second == it.second && i.first != it.first) return false;
+            }            
+        }
+        return true;
+    }
+};
+
+//Better
+class Solution {
+public:
+    bool uniqueOccurrences(vector<int>& arr) {
+        unordered_map<int, int> mp;
+        unordered_map<int, int> seen;
+        for(int i = 0; i < arr.size(); i++){
+            mp[arr[i]]++;
+        }
+        for(auto i: mp){
+            if(seen[i.second] == true) return false;
+            seen[i.second] = true;           
+        }
+        return true;
+    }
+};
