@@ -1,0 +1,60 @@
+//recursive
+class Solution {
+
+private:
+    int f(int i, int j, vector<vector<int>>& matrix, int n, int m){
+
+        if(j > n-1 || j < 0) return 1e9;
+        if(i == n-1) return matrix[i][j];
+
+        int first = matrix[i][j] + f(i + 1, j - 1, matrix, n, m);
+        int second = matrix[i][j] + f(i + 1, j, matrix, n , m); 
+        int third = matrix[i][j] + f(i + 1, j + 1, matrix, n, m);
+        int ans  = min(first, min(second, third));
+        return  ans;
+
+    }
+
+public:
+    int minFallingPathSum(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        int m = matrix[0].size();
+        int ans = INT_MAX;
+        for(int i = 0; i < m ; i++){
+            ans = min(ans, f(0, i, matrix, n , m));
+        }
+        return ans;
+    }
+};
+
+//Memoization
+class Solution {
+
+private:
+    int f(int i, int j, vector<vector<int>>& matrix, int n, int m, vector<vector<int>> &dp){
+
+        if(j > n-1 || j < 0) return 1e9;
+        if(i == n-1) return matrix[i][j];
+
+        if(dp[i][j] != -1) return dp[i][j];
+
+        int first = matrix[i][j] + f(i + 1, j - 1, matrix, n, m, dp);
+        int second = matrix[i][j] + f(i + 1, j, matrix, n , m, dp); 
+        int third = matrix[i][j] + f(i + 1, j + 1, matrix, n, m, dp);
+        int ans  = min(first, min(second, third));
+        return  dp[i][j] = ans;
+
+    }
+
+public:
+    int minFallingPathSum(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        int m = matrix[0].size();
+        vector<vector<int>> dp(n, vector<int> (m+1, -1));
+        int ans = INT_MAX;
+        for(int i = 0; i < m ; i++){
+            ans = min(ans, f(0, i, matrix, n , m, dp));
+        }
+        return ans;
+    }
+};
