@@ -1,0 +1,31 @@
+class Solution {
+/*
+private:
+    int f(int ind, int n, vector<int> &nums, vector<int> &dp){
+        if(ind == n) return 0;
+        if(ind == n-1) return nums[ind];
+
+        if(dp[ind] != -1) return dp[ind];
+
+        int take = nums[ind] + f(ind + 2, n, nums, dp);
+        int nottake = f(ind+1, n, nums, dp);
+
+        return dp[ind] = max(take, nottake);
+    }
+*/
+public:
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> dp(n+1, 0);
+        dp[n-1] = nums[n-1];
+
+        for(int ind = n-2; ind >= 0; ind--){
+            if(ind < n){
+                int take = nums[ind] + dp[ind + 2];
+                int nottake = dp[ind+1];
+                dp[ind] = max(take, nottake);
+            }
+        }
+        return dp[0];
+    }
+};
