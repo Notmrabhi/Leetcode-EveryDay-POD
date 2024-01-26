@@ -1,0 +1,38 @@
+class Solution {
+
+int mod = 10^9 + 7;
+
+private:
+    int f(int i, int j, int m, int n, int max, vector<vector<vector<int>>> &dp){
+       
+        if((i < 0 || j < 0 || i >= m || j  >= n) ){
+            return 1;
+        }
+        if(max == 0) return 0;
+
+        if(dp[i][j][max] != -1) return dp[i][j][max];  
+            
+        int up = f(i - 1, j, m, n, max-1, dp)%mod; // 1
+        int down =  f(i + 1, j, m, n, max-1, dp)%mod;
+        int left =  f(i, j - 1, m, n, max-1, dp)%mod;
+        int right =  f(i, j + 1, m, n, max-1, dp)%mod;
+        
+        return dp[i][j][max] = (up%mod + down%mod + left%mod + right%mod);
+    }
+
+public:
+    int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
+        vector<vector<vector<int>>> dp(m, vector<vector<int>> (n, vector<int> (maxMove+1, -1)));
+        return f(startRow , startColumn, m, n, maxMove, dp)%mod;
+        
+    }
+};
+
+/*
+
+ 0 1
+
+
+
+
+*/
